@@ -31,13 +31,13 @@ npm run check     # ESLint + Prettier 检查
 │   ├── config/           # 环境与基础设置
 │   ├── hooks/            # 暂留空，需要复用逻辑时再添加
 │   ├── layout/           # 暂留空，需要统一布局时再添加
-│   ├── pages/home/       # 唯一初始页面
+│   ├── pages/            # 首页、精选、购物车、我的（四个静态 tabBar 页面）
 │   ├── pages-sub/        # 暂留空，业务增多后再配置分包
 │   ├── router/           # 简单导航、参数编码、返回兜底
 │   ├── store/            # Pinia 与基础用户会话状态
 │   ├── styles/           # 变量和基础重置样式
 │   ├── utils/            # 存储、会话工具
-│   ├── static/           # 原样复制的静态资源，暂留空
+│   ├── static/           # 页面宣传图片、功能图标、tabBar 图标
 │   ├── App.vue
 │   ├── main.js
 │   ├── pages.json
@@ -53,6 +53,12 @@ npm run check     # ESLint + Prettier 检查
 ```
 
 空目录使用 `.gitkeep` 保留。CLI 工程的 `manifest.json`、`pages.json`、`uni.scss` 位于 `src`。
+
+## 静态页面
+
+四个页面按提供的设计截图制作，使用 uni-app 原生 tabBar、自定义页面顶部和 `rpx` 布局；App 顶部预留系统状态栏空间，购物车结算栏避让底部 tabBar。页面展示固定数据，不请求接口；“前往商场”仅切换到精选页，其余业务入口暂为静态展示。公共组件目录继续留空。
+
+`src/static/images` 中的宣传图、头像和部分图标从提供的截图裁剪压缩，后续取得原始设计素材后可同名替换。新增的通用线性图标位于 `src/static/icons`，tabBar 使用本地 PNG 图标。
 
 ## 接口与会话
 
@@ -71,7 +77,7 @@ export const getProfile = () => http.get('/user/profile')
 
 登录接口和页面由实际业务实现。登录成功后调用 `useUserStore().setSession({ token, expiresAt, user })`，`expiresAt` 为毫秒时间戳；退出时调用 `clearSession()`。会话保存在本地存储，不保存密码。HTTP / 业务 401 清理对应会话并同步用户状态，旧请求不会清理新登录。当前未加入自动登录跳转、权限守卫或 refresh token，按实际认证流程再添加。
 
-新增页面注册到 `pages.json`，使用 `navigate('/pages/xxx/index', { id })` 跳转，支持 tabBar 自动识别；当前不预设 tabBar。业务体量需要时再配置 `subPackages`。
+新增页面注册到 `pages.json`，使用 `navigate('/pages/xxx/index', { id })` 跳转，支持 tabBar 自动识别；当前已配置首页、精选、购物车、我的四个 tabBar 入口。业务体量需要时再配置 `subPackages`。
 
 ## 开发约定与发布
 

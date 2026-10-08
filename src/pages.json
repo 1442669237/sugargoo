@@ -3,7 +3,29 @@
     {
       "path": "pages/home/index",
       "style": {
-        "navigationBarTitleText": "SUGARGOO"
+        "navigationBarTitleText": "首页",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/featured/index",
+      "style": {
+        "navigationBarTitleText": "精选",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cart/index",
+      "style": {
+        "navigationBarTitleText": "购物车",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/mine/index",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "navigationStyle": "custom"
       }
     }
   ],
@@ -11,6 +33,38 @@
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "SUGARGOO",
     "navigationBarBackgroundColor": "#ffffff",
-    "backgroundColor": "#f5f7fa"
+    "backgroundColor": "#f6f6f6"
+  },
+  "tabBar": {
+    "color": "#444444",
+    "selectedColor": "#ff7900",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页",
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/featured/index",
+        "text": "精选",
+        "iconPath": "static/tabbar/featured.png",
+        "selectedIconPath": "static/tabbar/featured-active.png"
+      },
+      {
+        "pagePath": "pages/cart/index",
+        "text": "购物车",
+        "iconPath": "static/tabbar/cart.png",
+        "selectedIconPath": "static/tabbar/cart-active.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "static/tabbar/mine.png",
+        "selectedIconPath": "static/tabbar/mine-active.png"
+      }
+    ]
   }
 }
