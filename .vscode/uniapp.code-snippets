@@ -1,0 +1,19 @@
+{
+  "Vue3 uni-app 页面": {
+    "prefix": "uni-page",
+    "body": [
+      "<script setup>",
+      "import { onLoad } from '@dcloudio/uni-app'",
+      "",
+      "onLoad(() => {",
+      "  $0",
+      "})",
+      "</script>",
+      "",
+      "<template>",
+      "  <view>${1:页面内容}</view>",
+      "</template>",
+    ],
+    "description": "基础页面，无预设组件依赖",
+  },
+}
