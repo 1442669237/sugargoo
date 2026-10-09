@@ -2,12 +2,15 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { onBackPress, onShow } from '@dcloudio/uni-app'
+import { useExchangeStore } from '@/store/modules/exchange'
 import { usePreferencesStore } from '@/store/modules/preferences'
 import { languages, currencies } from '../../../shared/international'
 import { back } from '@/router'
 
 const { t } = useI18n()
 const preferences = usePreferencesStore()
+const exchange = useExchangeStore()
+const saving = ref(false)
 const panel = ref('')
 const draft = ref('')
 const languageLabel = computed(
@@ -19,25 +22,37 @@ const options = computed(() =>
     : currencies.map((item) => ({ ...item, label: item.code })),
 )
 function openPanel(type) {
+  if (saving.value) return
   draft.value = type === 'language' ? preferences.locale : preferences.currency
   panel.value = type
 }
 function closePanel() {
-  panel.value = ''
+  if (!saving.value) panel.value = ''
 }
 function goBack() {
   if (panel.value) closePanel()
   else back()
 }
-function confirm() {
+async function confirm() {
+  if (saving.value) return
+  const type = panel.value
+  const value = draft.value
+  saving.value = true
   try {
-    preferences.save({ [panel.value === 'language' ? 'locale' : 'currency']: draft.value })
-    closePanel()
+    if (type === 'currency') await exchange.refresh(value, { force: true })
+    preferences.save({ [type === 'language' ? 'locale' : 'currency']: value })
+    panel.value = ''
     uni.setNavigationBarTitle({ title: t('settings.title') })
   } catch {
-    uni.showToast({ title: t('settings.saveError'), icon: 'none' })
+    uni.showToast({
+      title: t(type === 'currency' ? 'exchange.failed' : 'settings.saveError'),
+      icon: 'none',
+    })
+  } finally {
+    saving.value = false
   }
 }
+
 onShow(() => uni.setNavigationBarTitle({ title: t('settings.title') }))
 onBackPress(() => {
   if (panel.value) {
@@ -49,34 +64,58 @@ onBackPress(() => {
 </script>
 <template>
   <view class="settings-page">
-    <view class="settings-header"><button class="back-button" :aria-label="t('settings.back')"
-        @click="goBack">←</button><text>{{ t('settings.title') }}</text></view>
+    <view class="settings-header"
+      ><button class="back-button" :aria-label="t('settings.back')" @click="goBack">←</button
+      ><text>{{ t('settings.title') }}</text></view
+    >
     <view class="settings-rows">
       <button class="settings-row" @click="openPanel('language')">
         <text>{{ t('settings.language') }}</text>
-        <view class="row-value"><text>{{ languageLabel }}</text><text class="chevron">›</text></view>
+        <view class="row-value"
+          ><text>{{ languageLabel }}</text
+          ><text class="chevron">›</text></view
+        >
       </button>
       <button class="settings-row" @click="openPanel('currency')">
         <text>{{ t('settings.currency') }}</text>
-        <view class="row-value"><text>{{ preferences.currency }}</text><text class="chevron">›</text></view>
+        <view class="row-value"
+          ><text>{{ preferences.currency }}</text
+          ><text class="chevron">›</text></view
+        >
       </button>
     </view>
     <view v-if="panel" class="sheet-mask" @click="closePanel">
-      <view class="sheet" :class="{ 'sheet--currency': panel === 'currency' }" role="dialog"
-        :aria-label="t(`settings.${panel}`)" @click.stop>
-        <view class="sheet-header"><button class="sheet-back" :aria-label="t('settings.back')"
-            @click="closePanel">‹</button><text>{{ t(`settings.${panel}`) }}</text></view>
+      <view
+        class="sheet"
+        :class="{ 'sheet--currency': panel === 'currency' }"
+        role="dialog"
+        :aria-label="t(`settings.${panel}`)"
+        @click.stop
+      >
+        <view class="sheet-header"
+          ><button class="sheet-back" :aria-label="t('settings.back')" @click="closePanel">‹</button
+          ><text>{{ t(`settings.${panel}`) }}</text></view
+        >
         <scroll-view class="sheet-options" scroll-y>
-          <button v-for="option in options" :key="option.code" class="sheet-option"
-            :class="{ selected: draft === option.code }" @click="draft = option.code">
+          <button
+            v-for="option in options"
+            :key="option.code"
+            class="sheet-option"
+            :disabled="saving"
+            :class="{ selected: draft === option.code }"
+            @click="draft = option.code"
+          >
             <text>{{ option.label }}</text>
-            <view class="radio" :class="{ checked: draft === option.code }"><text v-if="draft === option.code">✓</text>
+            <view class="radio" :class="{ checked: draft === option.code }"
+              ><text v-if="draft === option.code">✓</text>
             </view>
           </button>
         </scroll-view>
-        <view class="sheet-footer"><button class="confirm-button" @click="confirm">
+        <view class="sheet-footer"
+          ><button class="confirm-button" :disabled="saving" :loading="saving" @click="confirm">
             {{ t('settings.confirm') }}
-          </button></view>
+          </button></view
+        >
       </view>
     </view>
   </view>
@@ -140,7 +179,7 @@ button::after {
   border-radius: 0;
 }
 
-.settings-row+.settings-row {
+.settings-row + .settings-row {
   border-top: 1rpx solid #eee;
 }
 

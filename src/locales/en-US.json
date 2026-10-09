@@ -98,5 +98,11 @@
     "failed": "Something went wrong. Try again later.",
     "timeout": "Request timed out. Please retry.",
     "network": "Connection failed. Check your network."
+  },
+  "exchange": {
+    "loading": "Updating exchange rate…",
+    "stale": "Update failed. Using previous rate where available; otherwise —.",
+    "reference": "Converted at reference rate",
+    "failed": "Could not fetch rate. Currency unchanged. Please retry."
   }
 }

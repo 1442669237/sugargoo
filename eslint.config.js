@@ -15,6 +15,7 @@ export default [
         ...globals.node,
         ...globals.browser,
         uni: 'readonly',
+        plus: 'readonly',
         getCurrentPages: 'readonly',
       },
     },

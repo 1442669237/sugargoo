@@ -1,4 +1,5 @@
-import { resolvePreferences, convertPrice } from './pricing.js'
+import { getExchangeRate } from './exchange-rates.js'
+import { isLocale, isCurrency, defaultLocale } from '../shared/international.js'
 import { createServer } from 'node:http'
 import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
@@ -26,20 +27,14 @@ const server = createServer(async (request, response) => {
     }
     if (pathname === '/api/products') {
       // 每次读取文件，修改服务端数据后无需重新编译前端或重启服务。
-      let preferences
-      try {
-        preferences = resolvePreferences(searchParams)
-      } catch {
-        return json(response, 400, { code: 400, message: '不支持的语言或币种', data: null })
-      }
-      const [products, rates] = await Promise.all([
-        readFile(dataFile, 'utf8').then(JSON.parse),
-        readFile(new URL('./data/exchange-rates.json', import.meta.url), 'utf8').then(JSON.parse),
-      ])
-      const items = products.map(({ titles, basePrice, ...item }) => ({
+      const locale = searchParams.get('locale') || defaultLocale
+      if (!isLocale(locale))
+        return json(response, 400, { code: 400, message: '不支持的语言', data: null })
+      const products = JSON.parse(await readFile(dataFile, 'utf8'))
+      const items = products.map(({ titles, price, ...item }) => ({
         ...item,
-        title: titles[preferences.locale] || titles['zh-CN'],
-        price: convertPrice(basePrice, preferences.currency, rates),
+        title: titles[locale] || titles['zh-CN'],
+        price,
       }))
       response.setHeader('Cache-Control', 'no-store')
       return json(response, 200, {
@@ -48,11 +43,25 @@ const server = createServer(async (request, response) => {
         data: {
           items,
           total: items.length,
-          ...preferences,
-          rateUpdatedAt: rates.updatedAt,
-          rateKind: rates.kind,
+          locale,
         },
       })
+    }
+    if (pathname === '/api/exchange-rate') {
+      const currency = searchParams.get('currency')
+      if (!isCurrency(currency))
+        return json(response, 400, { code: 400, message: '不支持的币种', data: null })
+      response.setHeader('Cache-Control', 'no-store')
+      try {
+        return json(response, 200, {
+          code: 0,
+          message: 'ok',
+          data: await getExchangeRate(currency),
+        })
+      } catch (error) {
+        console.error('汇率获取失败:', error.message)
+        return json(response, 502, { code: 502, message: '汇率暂时不可用', data: null })
+      }
     }
     if (/^\/api\/images\/products\/[a-z0-9-]+\.jpg$/.test(pathname)) {
       const filename = pathname.split('/').pop()

@@ -8,9 +8,9 @@
       "en-US": "Heavyweight cotton T-shirt, relaxed fit, assorted colors",
       "es-ES": "Camiseta de algodón grueso, corte holgado, varios colores"
     },
-    "basePrice": {
-      "currency": "AUD",
-      "amountMinor": 704,
+    "price": {
+      "currency": "CNY",
+      "amountMinor": 3309,
       "fractionDigits": 2
     }
   },
@@ -23,9 +23,9 @@
       "en-US": "Unisex heavyweight plain hoodie, relaxed everyday fit",
       "es-ES": "Sudadera unisex con capucha, lisa y de corte holgado"
     },
-    "basePrice": {
-      "currency": "AUD",
-      "amountMinor": 2207,
+    "price": {
+      "currency": "CNY",
+      "amountMinor": 10373,
       "fractionDigits": 2
     }
   },
@@ -38,9 +38,9 @@
       "en-US": "Cituboy vintage short-sleeve checked shirt",
       "es-ES": "Camisa Cituboy de cuadros y manga corta, estilo vintage"
     },
-    "basePrice": {
-      "currency": "AUD",
-      "amountMinor": 1499,
+    "price": {
+      "currency": "CNY",
+      "amountMinor": 7045,
       "fractionDigits": 2
     }
   },
@@ -53,9 +53,9 @@
       "en-US": "Flexible folding silicone stand for phones and tablets",
       "es-ES": "Soporte plegable flexible de silicona para móviles y tabletas"
     },
-    "basePrice": {
-      "currency": "AUD",
-      "amountMinor": 399,
+    "price": {
+      "currency": "CNY",
+      "amountMinor": 1875,
       "fractionDigits": 2
     }
   }

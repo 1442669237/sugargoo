@@ -44,6 +44,16 @@ function goShopping() {
       ><button class="shopping-button" @click="goShopping">{{ t('cart.shop') }}</button>
     </view>
     <view class="checkout">
+      <!-- #ifdef H5 -->
+      <a
+        v-if="preferences.currency !== 'CNY'"
+        class="rate-source"
+        href="https://www.exchangerate-api.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Rates By Exchange Rate API</a
+      >
+      <!-- #endif -->
       <view class="checkout-summary">
         <view class="selection">
           <view class="checkbox" /><text>{{ t('cart.all') }}</text
@@ -246,5 +256,12 @@ function goShopping() {
   font-size: 30rpx;
   line-height: 80rpx;
   font-weight: 600;
+}
+.rate-source {
+  display: block;
+  text-align: right;
+  font-size: 18rpx;
+  color: #999;
+  margin-bottom: 8rpx;
 }
 </style>

@@ -22,28 +22,40 @@ npm run check     # ESLint + Prettier 检查
 
 后端使用 Node.js 内置 HTTP 服务，无需额外安装框架或数据库。先运行 `npm run dev:server`，再在另一终端运行 `npm run dev:h5`，访问 `http://127.0.0.1:5173`。后端默认仅监听本机 `127.0.0.1:8080`。
 
-- `GET /api/products?locale=zh-CN&currency=AUD`：返回 `{ code: 0, message: 'ok', data: { items, total } }`。
+- `GET /api/products?locale=zh-CN`：返回 `{ code: 0, message: 'ok', data: { items, total } }`。
 - `GET /api/health`：健康检查。
 - `GET /api/images/products/<文件名>.jpg`：商品图片。
 
-服务端初始商品数据在 `server/data/products.json`，图片在 `server/public/products`，来自提供的截图。可在 JSON 中增删商品或修改标题、销量、价格，刷新首页即可生效；`basePrice.amountMinor` 为基准币种最小单位，例如澳元 `704` 表示 `AUD 7.04`；标题在 `titles` 中按语言维护，`image` 为相对于 API 根路径的图片地址。当前是本地文件数据源，尚未接入真实商品库、数据库或后台管理系统。前端没有内置商品数据或离线兜底，服务不可用时显示重试入口；支持下拉刷新。
+服务端初始商品数据在 `server/data/products.json`，图片在 `server/public/products`，来自提供的截图。可在 JSON 中增删商品或修改标题、销量、价格，刷新首页即可生效；`price.amountMinor` 固定为人民币分，例如 `3309` 表示 `CNY 33.09`；标题在 `titles` 中按语言维护，`image` 为相对于 API 根路径的图片地址。当前是本地文件数据源，尚未接入真实商品库、数据库或后台管理系统。前端没有内置商品数据或离线兜底，服务不可用时显示重试入口；支持下拉刷新。
 
 H5 的 `/api` 请求和商品图片通过 Vite 代理转发到本地后端。真机 App 联调时，使用 `HOST=0.0.0.0 npm run dev:server` 在可信局域网监听，并在 `.env.development.local` 中将 `VITE_API_BASE_URL` 设置为 `http://电脑局域网IP:8080/api`，重新启动 App 编译；手机与电脑需在同一网络，手机上的 `127.0.0.1` 不指向电脑。App 的 HTTP 开发访问策略需按调试运行基座配置，正式发布使用 HTTPS 服务。生产 H5 不使用 Vite 开发代理，需要自行部署后端并配置同源代理或 CORS。
 
 ## 多语言与多币种
 
-- `src/locales`：中文 `zh-CN`、英文 `en-US`、西班牙文 `es-ES` 界面翻译，缺少翻译回退到中文。
-- `shared/international.js`：前后端共同使用的语言、币种支持列表；欧元使用标准代码 `EUR`。
-- `src/store/modules/preferences.js`：语言和币种独立保存至本地存储。设置页先选择，点击确定后生效；关闭弹层不保存。
-- `src/pages/settings`：设置页和底部选择弹层，首页右上角可进入。
-- `server/data/products.json`：`titles` 为商品翻译，`basePrice` 为基准价格，当前基准币种 AUD。
-- `server/data/exchange-rates.json`：手工配置的开发示例汇率，**不是实时或交易汇率**，上线前需要接入真实汇率来源及更新机制。
-- `server/pricing.js`：按目标币种小数位计算价格，使用 BigInt 有理数计算并四舍五入；JPY、KRW 为零小数币种。接口返回 `price: { currency, amountMinor, fractionDigits }`，附带汇率日期及开发标识。
-- `src/utils/money.js`：统一金额格式化，有 Intl 时按语言格式显示，旧 WebView 回退为币种代码加金额。
+- `src/locales`：中文 `zh-CN`、英文 `en-US`、西班牙文 `es-ES` 界面翻译，缺失时回退中文。
+- `shared/international.js`：前后端共享的语言、币种和小数位定义。
+- `src/pages/settings`：首页右上角进入，弹层选择后确认保存；语言与币种独立持久化。
+- `GET /api/products?locale=zh-CN`：仅语言影响标题；所有商品价格始终是 `price: { currency: "CNY", amountMinor, fractionDigits: 2 }`。币种变化不清空列表、不请求商品接口。
+- `GET /api/exchange-rate?currency=USD`：独立汇率接口，返回 CNY→目标币种的 `rateNumerator / rateScale`、供应商更新时间、下次更新时间与来源。
+- `server/exchange-rates.js`：第三方适配及缓存。目前接入 [ExchangeRate-API 开放接口](https://www.exchangerate-api.com/docs/free)，无需 Key、**每日更新，并非秒级实时行情**。页面按供应商要求展示来源链接。
+- `shared/money.js`：前端使用整数约分计算并按目标币种小数位舍入，不累计换汇；每次始终从原始人民币金额计算。无可用汇率时显示 `—`。
+- `src/store/modules/exchange.js`：按币种管理汇率缓存、加载状态及错误，合并同币种并发请求。`src/utils/money.js` 只负责最终金额格式。
 
-切换偏好会重新获取商品，旧请求不能覆盖最新选择。购物车零金额随币种变化；个人页余额仍明确标为 CNY（钱包业务尚未接入）。现有宣传图片中嵌入的文字及价格是静态素材，不参与界面翻译或换汇，需由设计提供对应语言/币种素材后替换。后续真实下单需由后端重新核价并保存币种、成交价和汇率快照，不能使用前端金额直接结算。
+### 更新时机
 
-运行 `npm run test:server` 验证偏好校验、换汇舍入及异常价格处理。H5 已做设置切换联调，iOS/Android 仍需真机验证弹层、安全区及原生 tabBar 文案。
+1. 每次在设置弹层确认币种，都请求自己的汇率接口（包括切回 CNY），成功后才保存币种；失败保留原币种并提示重试。
+2. 应用启动或返回前台检查当前币种的汇率；客户端缓存超过 5 分钟、供应商下一次更新时间已到或本机时钟倒退时重新获取。
+3. 前台每分钟检查一次上述条件，未过期不发请求，进入后台停止定时器。
+4. 自动更新失败时可继续使用最近成功获取的缓存，界面明确提示；客户端缓存超过 24 小时或不存在时显示 `—`，可手动重试。缓存有效期指成功校验时间，页面另展示供应商数据日期。
+5. 本地后端最多缓存上游 1 小时，供应商 `nextUpdateAt` 到达会提前失效；并发请求合并，避免频繁切币触发第三方限流。
+
+### 替换实时服务
+
+`EXCHANGE_RATE_URL` 可改变上游地址，响应格式改变时只需调整 `server/exchange-rates.js` 的适配方法及来源信息，前端接口契约保持不变。`EXCHANGE_RATE_CACHE_MS` 可调整服务端缓存时长（毫秒），前端有效期在 `shared/money.js` 的 `RATE_CHECK_MS` 配置。例如换成分钟级服务时应同步缩短两端缓存策略。不要把私密 API Key 放进 `VITE_` 变量，应保留在后端。
+
+个人页钱包余额仍明确为 CNY，购物车当前为零金额；宣传图片里的文字和价格属于静态素材，需要另备对应版本。前端换汇用于展示，未来真实下单仍需由后端核价。
+
+运行 `npm run test:server` 验证金额舍入、币种匹配、缓存失效、上游校验与失败处理。H5 已做设置联调；iOS/Android 仍需真机验证。
 
 ## 目录
 

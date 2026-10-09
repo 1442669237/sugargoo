@@ -98,5 +98,11 @@
     "failed": "Se produjo un error. Inténtalo más tarde.",
     "timeout": "La solicitud ha caducado. Reinténtalo.",
     "network": "Error de conexión. Comprueba tu red."
+  },
+  "exchange": {
+    "loading": "Actualizando el cambio…",
+    "stale": "Error al actualizar. Se usa el cambio anterior si está disponible; si no, —.",
+    "reference": "Conversión con tipo de referencia",
+    "failed": "No se pudo obtener el cambio. La moneda no ha cambiado. Reinténtalo."
   }
 }

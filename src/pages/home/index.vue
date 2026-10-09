@@ -4,9 +4,11 @@ import { navigate } from '@/router'
 import { ref, watch } from 'vue'
 import { formatMoney } from '@/utils/money'
 import { onLoad, onPullDownRefresh, onUnload } from '@dcloudio/uni-app'
+import { useExchangeStore } from '@/store/modules/exchange'
 import { getProducts } from '@/api/modules/products'
 
 const { t, preferences } = useLocalization('home')
+const exchange = useExchangeStore()
 
 const products = ref([])
 const loading = ref(false)
@@ -15,7 +17,7 @@ let requestVersion = 0
 
 async function loadProducts() {
   const version = ++requestVersion
-  const selection = { locale: preferences.locale, currency: preferences.currency }
+  const selection = { locale: preferences.locale }
   loading.value = true
   loadError.value = false
   try {
@@ -30,7 +32,7 @@ async function loadProducts() {
 
 onLoad(loadProducts)
 watch(
-  () => [preferences.locale, preferences.currency],
+  () => preferences.locale,
   () => {
     products.value = []
     loadProducts()
@@ -46,6 +48,12 @@ onPullDownRefresh(async () => {
     uni.stopPullDownRefresh()
   }
 })
+
+function openRateSource() {
+  // #ifdef APP-PLUS
+  plus.runtime.openURL('https://www.exchangerate-api.com')
+  // #endif
+}
 
 const shortcuts = ['home.tutorial', 'home.custom', 'home.shipping', 'home.affiliate']
 const statistics = [
@@ -113,6 +121,31 @@ const steps = [
         ></view
       >
       <view class="product-section">
+        <view v-if="preferences.currency !== 'CNY'" class="exchange-info">
+          <text v-if="exchange.loading[preferences.currency]">{{ t('exchange.loading') }}</text>
+          <text v-else-if="exchange.errors[preferences.currency]">{{ t('exchange.stale') }}</text>
+          <text v-else>{{ t('exchange.reference') }}</text>
+          <button
+            v-if="exchange.errors[preferences.currency]"
+            class="retry-button"
+            @click="exchange.refresh(preferences.currency, { force: true }).catch(() => {})"
+          >
+            {{ t('common.retry') }}
+          </button>
+          <text v-if="exchange.entries[preferences.currency]">{{
+            new Date(exchange.entries[preferences.currency].quote.updatedAt).toLocaleDateString(
+              preferences.locale,
+            )
+          }}</text>
+          <!-- #ifdef H5 -->
+          <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener noreferrer"
+            >Rates By Exchange Rate API</a
+          >
+          <!-- #endif -->
+          <!-- #ifndef H5 -->
+          <text @click="openRateSource">Rates By Exchange Rate API</text>
+          <!-- #endif -->
+        </view>
         <view class="product-heading"
           ><text>{{ t('products.heading') }}</text
           ><text class="product-subtitle">{{ t('products.subtitle') }}</text></view
@@ -137,7 +170,10 @@ const steps = [
               <text class="product-title">{{ product.title }}</text>
               <view class="product-meta">
                 <text class="product-price">{{
-                  formatMoney(product.price, preferences.locale)
+                  formatMoney(
+                    exchange.convert(product.price, preferences.currency),
+                    preferences.locale,
+                  )
                 }}</text>
                 <text class="product-sales">{{
                   t('products.sales', { count: product.sales })
@@ -401,5 +437,17 @@ const steps = [
   text-align: center;
   color: #aaa;
   font-size: 20rpx;
+}
+.exchange-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8rpx 16rpx;
+  margin-bottom: 20rpx;
+  font-size: 20rpx;
+  color: #999;
+}
+.exchange-info a {
+  color: #999;
 }
 </style>
