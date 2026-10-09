@@ -1,7 +1,36 @@
 <script setup>
+import { onShow } from '@dcloudio/uni-app'
+import { useUserStore } from '@/store/modules/user'
 import { useLocalization } from '@/hooks/useLocalization'
 import { navigate } from '@/router'
 const { t } = useLocalization('mine')
+const user = useUserStore()
+let openingLogin = false
+onShow(() => {
+  openingLogin = false
+  user.syncSession()
+})
+function handlePageTap() {
+  if (user.isLoggedIn || openingLogin) return
+  openingLogin = true
+  navigate('/pages/auth/index').catch(() => {
+    openingLogin = false
+  })
+}
+function openSettings() {
+  if (!user.isLoggedIn) handlePageTap()
+  else navigate('/pages/settings/index')
+}
+function showFeature(label) {
+  if (!user.isLoggedIn) {
+    handlePageTap()
+    return
+  }
+  uni.showToast({ title: t('auth.featurePending', { feature: t(label) }), icon: 'none' })
+}
+function signOut() {
+  user.clearSession()
+}
 
 const orders = [
   { icon: 'pay', label: 'mine.pay' },
@@ -32,53 +61,81 @@ const services = [
 ]
 </script>
 <template>
-  <view class="tab-page mine-page"
+  <view class="tab-page mine-page" @click="handlePageTap"
     ><view class="profile"
       ><view class="profile-top"
         ><view class="identity"
           ><view class="avatar"><image src="/static/images/avatar.png" /></view
-          ><view><text class="user-name">齐晨熙</text><text class="vip">◆ VIP</text></view></view
+          ><view class="identity-copy"
+            ><template v-if="user.isLoggedIn"
+              ><text class="user-name">{{
+                user.profile?.nickname || user.profile?.name || t('auth.member')
+              }}</text
+              ><text class="vip">◆ VIP</text></template
+            ><template v-else
+              ><text class="welcome">{{ t('auth.welcome') }}</text
+              ><text class="login-prompt">{{ t('auth.loginRegister') }}</text></template
+            ></view
+          ></view
         ><view class="header-actions"
           ><view class="message"
-            ><image class="ui-icon" src="/static/icons/message.svg" /><text class="message__badge"
+            ><image class="ui-icon" src="/static/icons/message.svg" /><text
+              v-if="user.isLoggedIn"
+              class="message__badge"
               >14</text
             ></view
           ><button
             class="settings-entry"
             :aria-label="t('settings.title')"
-            @click="navigate('/pages/settings/index')"
+            @click.stop="openSettings"
           >
             <image class="ui-icon" src="/static/icons/settings.svg" /></button></view></view
       ><view class="balances"
         ><view
           ><text class="balance-value">¥ 0.00</text><text>{{ t('mine.balance') }}</text></view
         ><view
-          ><text class="balance-value">1</text><text>{{ t('mine.points') }}</text></view
+          ><text class="balance-value">0</text><text>{{ t('mine.points') }}</text></view
         ><view
-          ><text class="balance-value">14</text><text>{{ t('mine.coupons') }}</text></view
+          ><text class="balance-value">0</text><text>{{ t('mine.coupons') }}</text></view
         ></view
       ></view
     ><view class="account-section"
       ><view class="section-heading"
         ><text>{{ t('mine.orders') }}</text
-        ><text class="section-more">{{ t('common.all') }} ›</text></view
+        ><text class="section-more" @click.stop="showFeature('mine.orders')"
+          >{{ t('common.all') }} ›</text
+        ></view
       ><view class="account-grid"
-        ><view v-for="item in orders" :key="item.icon" class="account-item"
+        ><view
+          v-for="item in orders"
+          :key="item.icon"
+          class="account-item"
+          @click.stop="showFeature(item.label)"
           ><image :src="`/static/icons/${item.icon}.png`" /><text>{{ t(item.label) }}</text></view
         ></view
       ></view
     ><view class="account-section tools"
       ><view class="account-grid"
-        ><view v-for="item in tools" :key="item.icon" class="account-item"
+        ><view
+          v-for="item in tools"
+          :key="item.icon"
+          class="account-item"
+          @click.stop="showFeature(item.label)"
           ><image :src="`/static/icons/${item.icon}.png`" /><text>{{ t(item.label) }}</text></view
         ></view
       ></view
     ><view class="account-section"
       ><view class="section-heading"
         ><text>{{ t('mine.parcels') }}</text
-        ><text class="section-more">{{ t('common.all') }} ›</text></view
+        ><text class="section-more" @click.stop="showFeature('mine.parcels')"
+          >{{ t('common.all') }} ›</text
+        ></view
       ><view class="account-grid"
-        ><view v-for="item in parcels" :key="item.icon" class="account-item"
+        ><view
+          v-for="item in parcels"
+          :key="item.icon"
+          class="account-item"
+          @click.stop="showFeature(item.label)"
           ><image :src="`/static/icons/${item.icon}.png`" /><text>{{ t(item.label) }}</text></view
         ></view
       ></view
@@ -90,13 +147,23 @@ const services = [
       ><view class="section-heading"
         ><text>{{ t('mine.services') }}</text></view
       ><view class="account-grid"
-        ><view v-for="item in services" :key="item.icon" class="account-item"
+        ><view
+          v-for="item in services"
+          :key="item.icon"
+          class="account-item"
+          @click.stop="showFeature(item.label)"
           ><image :src="`/static/icons/${item.icon}.${item.svg ? 'svg' : 'png'}`" /><text>{{
             t(item.label)
           }}</text></view
         ></view
       ></view
-    ><image class="support-mascot" src="/static/images/support.png" mode="aspectFit"
+    ><button v-if="user.isLoggedIn" class="logout-button" @click.stop="signOut">
+      {{ t('auth.logout') }}</button
+    ><image
+      class="support-mascot"
+      src="/static/images/support.png"
+      mode="aspectFit"
+      @click.stop="showFeature('mine.message')"
   /></view>
 </template>
 <style scoped lang="scss">
@@ -115,11 +182,13 @@ const services = [
   justify-content: space-between;
 }
 .identity {
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 20rpx;
 }
 .avatar {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -215,5 +284,29 @@ const services = [
 }
 .support-mascot {
   bottom: calc(var(--window-bottom, 0px) + 160rpx);
+}
+.identity-copy {
+  min-width: 0;
+}
+.welcome {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+.login-prompt {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-top: 8rpx;
+}
+.logout-button {
+  margin: 18rpx 28rpx;
+  font-size: 26rpx;
+  background: #fff;
+  color: #ff7900;
+  border-radius: 10rpx;
+}
+.logout-button::after {
+  border: 0;
 }
 </style>

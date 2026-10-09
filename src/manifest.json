@@ -1,37 +1,49 @@
 {
-  "name": "sugargoo",
-  "appid": "",
-  "description": "SUGARGOO 跨端应用",
-  "versionName": "1.0.0",
-  "versionCode": "100",
-  "uniStatistics": {
-    "enable": false
-  },
-  "transformPx": false,
-  "app-plus": {
-    "usingComponents": true,
-    "nvueStyleCompiler": "uni-app",
-    "compilerVersion": 3,
-    "splashscreen": {
-      "alwaysShowBeforeRender": true,
-      "waiting": true,
-      "autoclose": true,
-      "delay": 0
+    "name" : "sugargoo",
+    "appid" : "",
+    "description" : "SUGARGOO 跨端应用",
+    "versionName" : "1.0.0",
+    "versionCode" : "100",
+    "uniStatistics" : {
+        "enable" : false
     },
-    "modules": {},
-    "distribute": {
-      "android": {
-        "permissions": []
-      },
-      "ios": {},
-      "sdkConfigs": {}
+    "transformPx" : false,
+    "app-plus" : {
+        "usingComponents" : true,
+        "nvueStyleCompiler" : "uni-app",
+        "compilerVersion" : 3,
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : true,
+            "delay" : 0
+        },
+        "modules" : {
+            "OAuth" : {}
+        },
+        "distribute" : {
+            "android" : {
+                "permissions" : []
+            },
+            "ios" : {},
+            "sdkConfigs" : {
+                "oauth" : {
+                    "apple" : {},
+                    "google" : {
+                        "clientid" : ""
+                    }
+                }
+            },
+            "splashscreen" : {
+                "androidStyle" : "default"
+            }
+        }
+    },
+    "vueVersion" : "3",
+    "h5" : {
+        "title" : "SUGARGOO",
+        "router" : {
+            "mode" : "hash"
+        }
     }
-  },
-  "vueVersion": "3",
-  "h5": {
-    "title": "SUGARGOO",
-    "router": {
-      "mode": "hash"
-    }
-  }
 }

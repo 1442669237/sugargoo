@@ -36,6 +36,13 @@
         "navigationStyle": "custom",
         "disableScroll": true
       }
+    },
+    {
+      "path": "pages/auth/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "登录 / 注册"
+      }
     }
   ],
   "globalStyle": {
