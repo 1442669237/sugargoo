@@ -77,3 +77,16 @@
   font-size: 24rpx;
   font-weight: 400;
 }
+
+.settings-entry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+}
+.settings-entry::after {
+  border: 0;
+}

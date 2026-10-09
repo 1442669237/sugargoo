@@ -1,0 +1,102 @@
+{
+  "tabs": {
+    "home": "首页",
+    "featured": "精选",
+    "cart": "购物车",
+    "mine": "我的"
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "currency": "币种",
+    "confirm": "确定",
+    "back": "返回",
+    "saveError": "设置保存失败，请重试"
+  },
+  "common": {
+    "search": "请输入商品链接",
+    "all": "全部",
+    "retry": "重新加载"
+  },
+  "home": {
+    "notice": "【物流重要通知】欧盟取消 150 欧元以下包裹关税豁免政策",
+    "tutorial": "新手教程",
+    "custom": "定制采购",
+    "shipping": "运费估算",
+    "affiliate": "推广联盟",
+    "score": "用户好评",
+    "platforms": "合作平台",
+    "buyers": "专业买手",
+    "scoreUnit": "分",
+    "platformUnit": "个",
+    "buyerUnit": "人",
+    "service": "一站式代购服务",
+    "order": "提交代购订单",
+    "orderDetail": "挑选心仪好物，轻松下单",
+    "warehouse": "签收验货入库",
+    "warehouseDetail": "专业验货，安心寄存"
+  },
+  "products": {
+    "heading": "为你推荐",
+    "subtitle": "发现值得入手的好物",
+    "loading": "商品加载中…",
+    "refreshing": "正在刷新…",
+    "error": "商品加载失败，请稍后重试",
+    "empty": "暂无商品，稍后再来看看吧",
+    "end": "已经到底了",
+    "sales": "销量: {count}"
+  },
+  "cart": {
+    "title": "我的购物车 ({count})",
+    "empty": "购物车是空的 开始你的购物之旅吧～",
+    "shop": "前往商场",
+    "all": "全选",
+    "selected": "已选:",
+    "total": "金额:",
+    "estimate": "预估",
+    "shipping": "国际运费"
+  },
+  "featured": {
+    "special": "特别促销",
+    "shops": "热门店铺",
+    "name": "SUGARGOO 精选好店",
+    "detail": "发现新风格 · 好物不止一面",
+    "tag": "精选推荐",
+    "new": "新品推荐",
+    "hot": "热销精选"
+  },
+  "mine": {
+    "balance": "余额 (CNY)",
+    "points": "积分",
+    "coupons": "优惠券",
+    "orders": "我的订单",
+    "parcels": "我的包裹",
+    "services": "更多服务",
+    "pay": "待付款",
+    "purchase": "采购中/配货中",
+    "warehouse": "已入库",
+    "refund": "退款/售后",
+    "operation": "操作中心",
+    "package": "预演包裹",
+    "resell": "我要转卖",
+    "supplement": "待补款",
+    "truck": "运输中",
+    "pending": "待处理",
+    "favorite": "收藏夹",
+    "frequent": "我的常购",
+    "history": "浏览记录",
+    "message": "客服中心",
+    "help": "帮助中心",
+    "guide": "新手指引",
+    "gift": "转盘抽奖",
+    "share": "分享有礼"
+  },
+  "errors": {
+    "session": "登录已过期，请重新登录",
+    "http": "服务请求失败（{status}）",
+    "response": "接口响应格式不正确",
+    "failed": "操作失败，请稍后重试",
+    "timeout": "请求超时，请稍后重试",
+    "network": "网络连接失败，请检查网络"
+  }
+}

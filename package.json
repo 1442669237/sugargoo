@@ -17,7 +17,10 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run lint && npm run format:check"
+    "check": "npm run lint && npm run format:check",
+    "dev:server": "node --watch server/index.js",
+    "start:server": "node server/index.js",
+    "test:server": "node --test server/*.test.js"
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-5020620260917001",

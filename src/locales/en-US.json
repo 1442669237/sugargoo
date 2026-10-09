@@ -1,0 +1,102 @@
+{
+  "tabs": {
+    "home": "Home",
+    "featured": "Discover",
+    "cart": "Cart",
+    "mine": "Account"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "currency": "Currency",
+    "confirm": "Confirm",
+    "back": "Back",
+    "saveError": "Could not save settings. Please retry."
+  },
+  "common": {
+    "search": "Paste a product link",
+    "all": "View all",
+    "retry": "Try again"
+  },
+  "home": {
+    "notice": "Shipping notice: EU parcel customs policy update",
+    "tutorial": "Getting started",
+    "custom": "Custom sourcing",
+    "shipping": "Shipping estimate",
+    "affiliate": "Affiliate program",
+    "score": "Customer rating",
+    "platforms": "Partner platforms",
+    "buyers": "Expert buyers",
+    "scoreUnit": "pts",
+    "platformUnit": "sites",
+    "buyerUnit": "buyers",
+    "service": "Your shopping journey",
+    "order": "Place your order",
+    "orderDetail": "Find your favorites and order easily",
+    "warehouse": "Inspection & storage",
+    "warehouseDetail": "Checked carefully, stored safely"
+  },
+  "products": {
+    "heading": "Recommended for you",
+    "subtitle": "Find your next favorite",
+    "loading": "Loading products…",
+    "refreshing": "Refreshing…",
+    "error": "Could not load products. Please retry.",
+    "empty": "No products yet. Check back soon.",
+    "end": "You have seen everything",
+    "sales": "Sold: {count}"
+  },
+  "cart": {
+    "title": "My cart ({count})",
+    "empty": "Your cart is empty. Start shopping!",
+    "shop": "Go shopping",
+    "all": "Select all",
+    "selected": "Selected:",
+    "total": "Total:",
+    "estimate": "Estimate",
+    "shipping": "Intl. shipping"
+  },
+  "featured": {
+    "special": "Special offers",
+    "shops": "Popular shops",
+    "name": "SUGARGOO favorites",
+    "detail": "Discover a fresh style",
+    "tag": "Our picks",
+    "new": "New arrivals",
+    "hot": "Best sellers"
+  },
+  "mine": {
+    "balance": "Balance (CNY)",
+    "points": "Points",
+    "coupons": "Coupons",
+    "orders": "My orders",
+    "parcels": "My parcels",
+    "services": "More services",
+    "pay": "Unpaid",
+    "purchase": "Processing",
+    "warehouse": "In storage",
+    "refund": "After-sales",
+    "operation": "Operations",
+    "package": "Rehearsal",
+    "resell": "Resell",
+    "supplement": "Balance due",
+    "truck": "In transit",
+    "pending": "Pending",
+    "favorite": "Favorites",
+    "frequent": "Buy again",
+    "history": "History",
+    "message": "Support",
+    "help": "Help",
+    "guide": "Guide",
+    "gift": "Prize draw",
+    "share": "Share & earn"
+  },
+  "errors": {
+    "session": "Your session has expired. Please sign in again.",
+    "http": "Service request failed ({status})",
+    "response": "Invalid server response",
+    "failed": "Something went wrong. Try again later.",
+    "timeout": "Request timed out. Please retry.",
+    "network": "Connection failed. Check your network."
+  }
+}

@@ -4,7 +4,8 @@
       "path": "pages/home/index",
       "style": {
         "navigationBarTitleText": "首页",
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
       }
     },
     {
@@ -26,6 +27,14 @@
       "style": {
         "navigationBarTitleText": "我的",
         "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/settings/index",
+      "style": {
+        "navigationBarTitleText": "设置",
+        "navigationStyle": "custom",
+        "disableScroll": true
       }
     }
   ],

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "cotton-tee",
+    "sales": 4237,
+    "image": "/images/products/cotton-tee.jpg",
+    "titles": {
+      "zh-CN": "320g 重磅纯棉短袖 T 恤多颜色 厚实不透夏季宽松大码情侣装",
+      "en-US": "Heavyweight cotton T-shirt, relaxed fit, assorted colors",
+      "es-ES": "Camiseta de algodón grueso, corte holgado, varios colores"
+    },
+    "basePrice": {
+      "currency": "AUD",
+      "amountMinor": 704,
+      "fractionDigits": 2
+    }
+  },
+  {
+    "id": "grey-hoodie",
+    "sales": 4377,
+    "image": "/images/products/grey-hoodie.jpg",
+    "titles": {
+      "zh-CN": "外贸纯色重磅连帽跨境卫衣男女款青少年美式简约百搭帽衫",
+      "en-US": "Unisex heavyweight plain hoodie, relaxed everyday fit",
+      "es-ES": "Sudadera unisex con capucha, lisa y de corte holgado"
+    },
+    "basePrice": {
+      "currency": "AUD",
+      "amountMinor": 2207,
+      "fractionDigits": 2
+    }
+  },
+  {
+    "id": "check-shirt",
+    "sales": 3988,
+    "image": "/images/products/check-shirt.jpg",
+    "titles": {
+      "zh-CN": "【NEW】日系 cituboy 格子短袖衬衫复古情侣衬衫",
+      "en-US": "Cituboy vintage short-sleeve checked shirt",
+      "es-ES": "Camisa Cituboy de cuadros y manga corta, estilo vintage"
+    },
+    "basePrice": {
+      "currency": "AUD",
+      "amountMinor": 1499,
+      "fractionDigits": 2
+    }
+  },
+  {
+    "id": "phone-stand",
+    "sales": 2681,
+    "image": "/images/products/phone-stand.jpg",
+    "titles": {
+      "zh-CN": "柔性折叠手机支架硅胶支架平板笔记本通用架变形懒人支架",
+      "en-US": "Flexible folding silicone stand for phones and tablets",
+      "es-ES": "Soporte plegable flexible de silicona para móviles y tabletas"
+    },
+    "basePrice": {
+      "currency": "AUD",
+      "amountMinor": 399,
+      "fractionDigits": 2
+    }
+  }
+]

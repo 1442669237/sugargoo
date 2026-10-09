@@ -1,30 +1,34 @@
 <script setup>
+import { useLocalization } from '@/hooks/useLocalization'
+import { navigate } from '@/router'
+const { t } = useLocalization('mine')
+
 const orders = [
-  { icon: 'pay', label: '待付款' },
-  { icon: 'purchase', label: '采购中/配货中' },
-  { icon: 'warehouse', label: '已入库' },
-  { icon: 'refund', label: '退款/售后' },
+  { icon: 'pay', label: 'mine.pay' },
+  { icon: 'purchase', label: 'mine.purchase' },
+  { icon: 'warehouse', label: 'mine.warehouse' },
+  { icon: 'refund', label: 'mine.refund' },
 ]
 const tools = [
-  { icon: 'operation', label: '操作中心' },
-  { icon: 'package', label: '预演包裹' },
-  { icon: 'resell', label: '我要转卖' },
+  { icon: 'operation', label: 'mine.operation' },
+  { icon: 'package', label: 'mine.package' },
+  { icon: 'resell', label: 'mine.resell' },
 ]
 const parcels = [
-  { icon: 'parcel-pay', label: '待付款' },
-  { icon: 'supplement', label: '待补款' },
-  { icon: 'truck', label: '运输中' },
-  { icon: 'pending', label: '待处理' },
+  { icon: 'parcel-pay', label: 'mine.pay' },
+  { icon: 'supplement', label: 'mine.supplement' },
+  { icon: 'truck', label: 'mine.truck' },
+  { icon: 'pending', label: 'mine.pending' },
 ]
 const services = [
-  { icon: 'favorite', label: '收藏夹' },
-  { icon: 'frequent', label: '我的常购' },
-  { icon: 'history', label: '浏览记录' },
-  { icon: 'message', label: '客服中心', svg: true },
-  { icon: 'help', label: '帮助中心' },
-  { icon: 'guide', label: '新手指引' },
-  { icon: 'gift', label: '转盘抽奖' },
-  { icon: 'share', label: '分享有礼' },
+  { icon: 'favorite', label: 'mine.favorite' },
+  { icon: 'frequent', label: 'mine.frequent' },
+  { icon: 'history', label: 'mine.history' },
+  { icon: 'message', label: 'mine.message', svg: true },
+  { icon: 'help', label: 'mine.help' },
+  { icon: 'guide', label: 'mine.guide' },
+  { icon: 'gift', label: 'mine.gift' },
+  { icon: 'share', label: 'mine.share' },
 ]
 </script>
 <template>
@@ -39,32 +43,43 @@ const services = [
             ><image class="ui-icon" src="/static/icons/message.svg" /><text class="message__badge"
               >14</text
             ></view
-          ><image class="ui-icon" src="/static/icons/settings.svg" /></view></view
+          ><button
+            class="settings-entry"
+            :aria-label="t('settings.title')"
+            @click="navigate('/pages/settings/index')"
+          >
+            <image class="ui-icon" src="/static/icons/settings.svg" /></button></view></view
       ><view class="balances"
-        ><view><text class="balance-value">¥ 0.00</text><text>余额 (CNY)</text></view
-        ><view><text class="balance-value">1</text><text>积分</text></view
-        ><view><text class="balance-value">14</text><text>优惠券</text></view></view
+        ><view
+          ><text class="balance-value">¥ 0.00</text><text>{{ t('mine.balance') }}</text></view
+        ><view
+          ><text class="balance-value">1</text><text>{{ t('mine.points') }}</text></view
+        ><view
+          ><text class="balance-value">14</text><text>{{ t('mine.coupons') }}</text></view
+        ></view
       ></view
     ><view class="account-section"
       ><view class="section-heading"
-        ><text>我的订单</text><text class="section-more">全部 ›</text></view
+        ><text>{{ t('mine.orders') }}</text
+        ><text class="section-more">{{ t('common.all') }} ›</text></view
       ><view class="account-grid"
         ><view v-for="item in orders" :key="item.icon" class="account-item"
-          ><image :src="`/static/icons/${item.icon}.png`" /><text>{{ item.label }}</text></view
+          ><image :src="`/static/icons/${item.icon}.png`" /><text>{{ t(item.label) }}</text></view
         ></view
       ></view
     ><view class="account-section tools"
       ><view class="account-grid"
         ><view v-for="item in tools" :key="item.icon" class="account-item"
-          ><image :src="`/static/icons/${item.icon}.png`" /><text>{{ item.label }}</text></view
+          ><image :src="`/static/icons/${item.icon}.png`" /><text>{{ t(item.label) }}</text></view
         ></view
       ></view
     ><view class="account-section"
       ><view class="section-heading"
-        ><text>我的包裹</text><text class="section-more">全部 ›</text></view
+        ><text>{{ t('mine.parcels') }}</text
+        ><text class="section-more">{{ t('common.all') }} ›</text></view
       ><view class="account-grid"
         ><view v-for="item in parcels" :key="item.icon" class="account-item"
-          ><image :src="`/static/icons/${item.icon}.png`" /><text>{{ item.label }}</text></view
+          ><image :src="`/static/icons/${item.icon}.png`" /><text>{{ t(item.label) }}</text></view
         ></view
       ></view
     ><view class="account-section promotions"
@@ -72,11 +87,12 @@ const services = [
         src="/static/images/coupons.jpg"
         mode="widthFix" /></view
     ><view class="account-section more-services"
-      ><view class="section-heading"><text>更多服务</text></view
+      ><view class="section-heading"
+        ><text>{{ t('mine.services') }}</text></view
       ><view class="account-grid"
         ><view v-for="item in services" :key="item.icon" class="account-item"
           ><image :src="`/static/icons/${item.icon}.${item.svg ? 'svg' : 'png'}`" /><text>{{
-            item.label
+            t(item.label)
           }}</text></view
         ></view
       ></view
@@ -167,7 +183,9 @@ const services = [
   flex-direction: column;
   gap: 12rpx;
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
+  line-height: 1.3;
+  padding: 0 4rpx;
   font-size: 23rpx;
   color: #444;
 }

@@ -1,0 +1,102 @@
+{
+  "tabs": {
+    "home": "Inicio",
+    "featured": "Selección",
+    "cart": "Carrito",
+    "mine": "Mi cuenta"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "language": "Idioma",
+    "currency": "Moneda",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "saveError": "No se pudieron guardar los ajustes. Reinténtalo."
+  },
+  "common": {
+    "search": "Pega un enlace de producto",
+    "all": "Ver todo",
+    "retry": "Reintentar"
+  },
+  "home": {
+    "notice": "Aviso de envío: actualización de aduanas de la UE",
+    "tutorial": "Guía inicial",
+    "custom": "Compra a medida",
+    "shipping": "Estimar envío",
+    "affiliate": "Afiliados",
+    "score": "Valoración",
+    "platforms": "Plataformas",
+    "buyers": "Compradores expertos",
+    "scoreUnit": "pts",
+    "platformUnit": "sitios",
+    "buyerUnit": "personas",
+    "service": "Tu experiencia de compra",
+    "order": "Haz tu pedido",
+    "orderDetail": "Elige tus favoritos fácilmente",
+    "warehouse": "Inspección y almacenaje",
+    "warehouseDetail": "Revisión y almacenaje seguros"
+  },
+  "products": {
+    "heading": "Recomendado para ti",
+    "subtitle": "Descubre tus favoritos",
+    "loading": "Cargando productos…",
+    "refreshing": "Actualizando…",
+    "error": "No se pudieron cargar los productos. Reinténtalo.",
+    "empty": "No hay productos. Vuelve pronto.",
+    "end": "Has visto todos los productos",
+    "sales": "Ventas: {count}"
+  },
+  "cart": {
+    "title": "Mi carrito ({count})",
+    "empty": "Tu carrito está vacío. ¡Empieza a comprar!",
+    "shop": "Ir de compras",
+    "all": "Todo",
+    "selected": "Elegidos:",
+    "total": "Total:",
+    "estimate": "Estimar",
+    "shipping": "Envío internacional"
+  },
+  "featured": {
+    "special": "Ofertas especiales",
+    "shops": "Tiendas populares",
+    "name": "Favoritos SUGARGOO",
+    "detail": "Descubre un nuevo estilo",
+    "tag": "Recomendados",
+    "new": "Novedades",
+    "hot": "Más vendidos"
+  },
+  "mine": {
+    "balance": "Saldo (CNY)",
+    "points": "Puntos",
+    "coupons": "Cupones",
+    "orders": "Mis pedidos",
+    "parcels": "Mis paquetes",
+    "services": "Más servicios",
+    "pay": "Sin pagar",
+    "purchase": "En proceso",
+    "warehouse": "Almacenado",
+    "refund": "Posventa",
+    "operation": "Operaciones",
+    "package": "Preparación",
+    "resell": "Revender",
+    "supplement": "Pago pendiente",
+    "truck": "En tránsito",
+    "pending": "Pendiente",
+    "favorite": "Favoritos",
+    "frequent": "Volver a comprar",
+    "history": "Historial",
+    "message": "Soporte",
+    "help": "Ayuda",
+    "guide": "Guía",
+    "gift": "Sorteo",
+    "share": "Compartir"
+  },
+  "errors": {
+    "session": "Tu sesión ha caducado. Inicia sesión de nuevo.",
+    "http": "Error de servicio ({status})",
+    "response": "Respuesta del servidor no válida",
+    "failed": "Se produjo un error. Inténtalo más tarde.",
+    "timeout": "La solicitud ha caducado. Reinténtalo.",
+    "network": "Error de conexión. Comprueba tu red."
+  }
+}

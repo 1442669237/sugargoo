@@ -1,3 +1,4 @@
+import { i18n } from '@/locales'
 import { env } from '@/config/env'
 import { clearSession, getSession } from '@/utils/session'
 
@@ -65,22 +66,22 @@ export async function request({
         clearSession()
         onUnauthorized()
       }
-      throw new RequestError('登录已过期，请重新登录', {
+      throw new RequestError(i18n.global.t('errors.session'), {
         code: 'UNAUTHORIZED',
         statusCode: response.statusCode,
       })
     }
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw new RequestError(`服务请求失败（${response.statusCode}）`, {
+      throw new RequestError(i18n.global.t('errors.http', { status: response.statusCode }), {
         code: 'HTTP_ERROR',
         statusCode: response.statusCode,
       })
     }
     if (!body || typeof body !== 'object' || !Object.prototype.hasOwnProperty.call(body, 'code')) {
-      throw new RequestError('接口响应格式不正确', { code: 'INVALID_RESPONSE' })
+      throw new RequestError(i18n.global.t('errors.response'), { code: 'INVALID_RESPONSE' })
     }
     if (body.code !== 0) {
-      throw new RequestError(body.message || '操作失败，请稍后重试', {
+      throw new RequestError(body.message || i18n.global.t('errors.failed'), {
         code: body.code,
         statusCode: response.statusCode,
       })
@@ -92,8 +93,8 @@ export async function request({
         ? cause
         : new RequestError(
             cause?.errMsg?.includes('timeout')
-              ? '请求超时，请稍后重试'
-              : '网络连接失败，请检查网络',
+              ? i18n.global.t('errors.timeout')
+              : i18n.global.t('errors.network'),
             {
               code: cause?.errMsg?.includes('timeout') ? 'TIMEOUT' : 'NETWORK_ERROR',
               cause,

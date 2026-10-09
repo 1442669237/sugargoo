@@ -1,42 +1,51 @@
 <script setup>
+import { useLocalization } from '@/hooks/useLocalization'
+import { navigate } from '@/router'
+const { t } = useLocalization('featured')
+
 const promotions = [
-  { image: 'new-arrivals', name: '新品推荐' },
-  { image: 'hot-sellers', name: '热销精选' },
+  { image: 'new-arrivals', name: 'featured.new' },
+  { image: 'hot-sellers', name: 'featured.hot' },
 ]
 </script>
 <template>
   <view class="tab-page featured-page"
     ><view class="page-header"
-      ><text class="page-heading">精选</text
+      ><text class="page-heading">{{ t('tabs.featured') }}</text
       ><view class="header-actions"
         ><view class="message"
           ><image class="ui-icon" src="/static/icons/message.svg" /><text class="message__badge"
             >14</text
           ></view
-        ><image class="ui-icon" src="/static/icons/language.svg" /></view></view
+        ><button
+          class="settings-entry"
+          :aria-label="t('settings.title')"
+          @click="navigate('/pages/settings/index')"
+        >
+          <image class="ui-icon" src="/static/icons/language.svg" /></button></view></view
     ><view class="search-bar"
       ><image class="ui-icon" src="/static/icons/scan.svg" /><image
         class="ui-icon search-symbol"
         src="/static/icons/search.svg"
-      /><text class="search-placeholder">请输入商品链接</text></view
+      /><text class="search-placeholder">{{ t('common.search') }}</text></view
     ><view class="featured-content"
       ><image class="outdoor-banner" src="/static/images/outdoor-banner.jpg" mode="widthFix" /><text
         class="promotion-title"
-        >特别促销</text
+        >{{ t('featured.special') }}</text
       ><view class="promotion-grid"
         ><image
           v-for="item in promotions"
           :key="item.image"
           :src="`/static/images/${item.image}.jpg`"
-          :alt="item.name"
+          :alt="t(item.name)"
           mode="widthFix" /></view
-      ><text class="promotion-title">热门店铺</text
+      ><text class="promotion-title">{{ t('featured.shops') }}</text
       ><view class="shop-card"
         ><view class="shop-logo">S</view
         ><view
-          ><text class="shop-name">SUGARGOO 精选好店</text
-          ><text class="shop-detail">发现新风格 · 好物不止一面</text></view
-        ><text class="shop-tag">精选推荐</text></view
+          ><text class="shop-name">{{ t('featured.name') }}</text
+          ><text class="shop-detail">{{ t('featured.detail') }}</text></view
+        ><text class="shop-tag">{{ t('featured.tag') }}</text></view
       ></view
     ></view
   >
