@@ -16,7 +16,7 @@ export const i18n = createI18n({
 export function syncTabLabels() {
   const pages = getCurrentPages()
   const current = pages[pages.length - 1]
-  const names = ['home', 'featured', 'cart', 'mine']
+  const names = ['home', 'featured', 'cart', 'transit', 'mine']
   if (!names.some((name) => current?.route === `pages/${name}/index`)) return
   names.forEach((name, index) => {
     uni.setTabBarItem({ index, text: i18n.global.t(`tabs.${name}`) })

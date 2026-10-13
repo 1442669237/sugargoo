@@ -23,6 +23,13 @@
       }
     },
     {
+      "path": "pages/transit/index",
+      "style": {
+        "navigationBarTitleText": "转运",
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/mine/index",
       "style": {
         "navigationBarTitleText": "我的",
@@ -74,6 +81,12 @@
         "text": "购物车",
         "iconPath": "static/tabbar/cart.png",
         "selectedIconPath": "static/tabbar/cart-active.png"
+      },
+      {
+        "pagePath": "pages/transit/index",
+        "text": "转运",
+        "iconPath": "static/tabbar/transit.png",
+        "selectedIconPath": "static/tabbar/transit-active.png"
       },
       {
         "pagePath": "pages/mine/index",
